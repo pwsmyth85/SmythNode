@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+<body>
+    <h2>Sign Up</h2>
+    <form id="signup-form">
+        <label for="firstname">First Name:</label><br>
+        <input type="text" id="first_name" name="first_name" required><br>
+        <label for="lastname">Last Name:</label><br>
+        <input type="text" id="last_name" name="last_name" required><br>
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <label for="email">Email Address:</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <button type="submit">Sign Up</button>
+    </form>
+
+
+        <script>
+            document.getElementById('signup-form').addEventListener('submit', async function (event) {
+                event.preventDefault(); // Prevent form submission
+
+            // Get form data
+            const formData = new FormData(this);
+            const userData = new URLSearchParams(formData).toString(); // Convert FormData to URL-encoded form data
+
+            // Send data to server
+            const response = await fetch('/signup', { // Assuming signup route is defined in app.js
+                method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded' // Send URL-encoded form data
+                },
+            body: userData
+            });
+
+            if (response.ok) {
+                alert('Sign up successful!');
+            window.location.href = '/'; // Redirect to home page or login page
+            } else {
+                const errorData = await response.json();
+            alert(`Sign up failed: ${errorData.message}`);
+            }
+        });
+
+    </script>
+
+
+
+    
+</body>
+</html>

@@ -1,0 +1,6 @@
+//Postgrsql
+p@ssword1
+port 5432
+username: postgres
+pgbouncer listening port 6432
+

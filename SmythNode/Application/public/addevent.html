@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+</head>
+<body>
+    <h2>Create Event</h2>
+    <form id="create-event-form">
+        <label for="event_name">Event Name:</label><br>
+        <input type="text" id="event_name" name="event_name" required><br>
+        <label for="event_date">Event Date:</label><br>
+        <input type="date" id="event_date" name="event_date" required><br>
+        <label for="venue_name">Venue Name:</label><br>
+        <input type="text" id="venue_name" name="venue_name" required><br>
+        <label for="event_description">Event Description:</label><br>
+        <textarea id="event_description" name="event_description" required></textarea><br>
+        <label for="time">Time:</label><br>
+        <input type="time" id="time" name="time" required><br><br>
+        <button type="submit">Create Event</button>
+    </form>
+
+    <script>
+        document.getElementById('create-event-form').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get form data
+            const formData = new FormData(this);
+            let eventData = Object.fromEntries(formData.entries());
+
+            // Format date and time strings
+            eventData.event_date = formatDate(eventData.event_date);
+            eventData.time = formatTime(eventData.time);
+
+            // Convert to URL-encoded form data
+            eventData = new URLSearchParams(eventData).toString();
+
+            // Send data to server
+            const response = await fetch('/create-event', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: eventData
+            });
+
+            if (response.ok) {
+                alert('Event created successfully!');
+                // Redirect to another page or update UI as needed
+            } else {
+                const errorData = await response.json();
+                alert(`Failed to create event: ${errorData.message}`);
+            }
+        });
+
+        // Function to format date string as "YYYY-MM-DD"
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Function to format time string as "HH:MM:SS"
+        function formatTime(timeString) {
+            return `${timeString}:00`; // Assuming seconds are always 00
+        }
+    </script>
+</body>
+</html>

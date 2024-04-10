@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:express/recommended"
+  ],
+  
+  "parser": "@babel/eslint-parser",
+
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "plugins": [
+    "express"
+  ],
+  "rules": {
+    // Your ESLint rules here
+  }
+}

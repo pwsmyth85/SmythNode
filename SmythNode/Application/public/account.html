@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Account</h1>
+    </header>
+
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+
+    <nav>
+        <ul>
+            <li><a href="index.html"> Home</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="signin.html">Sign In</a></li>
+            <!-- Add more navigation links as needed -->
+        </ul>
+    </nav>
+
+    <h2>Details</h2>
+    <table id="eventsTable">
+        <thead>
+            <tr>
+                <th>First Name:</th>
+                <th>Last Name:</th>
+                <th>Username:</th>
+                <th>email:</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Event data will be dynamically inserted here -->
+        </tbody>
+    </table>
+    <script>
+
+                    // Fetch event data from the server and dynamically populate the table
+                    fetch('/users')
+                        .then(response => response.json())
+                        .then(users => {
+                            const usersTable = document.getElementById('usersTable');
+                            const tbody = usersTable.querySelector('tbody');
+                            users.forEach(user => {
+                                
+
+                                // Create a table row and insert data
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
+                                            <td>${user.first_name}</td>
+                                            <td>${user.last_name}</td>
+                                            <td>${user.username}</td>
+                                            <td>${user.email}</td>
+                                            
+                                        `;
+                                tbody.appendChild(row);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching events:', error));
+
+
+
+
+    </script>
+</body>
+
+
+
+
+
+
+
+
+</html>
